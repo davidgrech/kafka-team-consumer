@@ -22,12 +22,14 @@ public class Client {
 
 	private double mntGoldProducts;
 
+	private String date;
+
 	public Client() {
 		super();
 	}
 
 	public Client(String maritalStatus, double income, double mntWines, double mntFruits, double mntMeatProducts,
-			double mntFishProducts, double mntSweetProducts, double mntGoldProducts) {
+			double mntFishProducts, double mntSweetProducts, double mntGoldProducts, String date) {
 		super();
 		this.maritalStatus = maritalStatus;
 		this.income = income;
@@ -37,6 +39,7 @@ public class Client {
 		this.mntFishProducts = mntFishProducts;
 		this.mntSweetProducts = mntSweetProducts;
 		this.mntGoldProducts = mntGoldProducts;
+		this.date = date;
 	}
 
 	public long getId() {
@@ -111,10 +114,18 @@ public class Client {
 		this.mntGoldProducts = mntGoldProducts;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, income, maritalStatus, mntFishProducts, mntFruits, mntGoldProducts, mntMeatProducts,
-				mntSweetProducts, mntWines);
+		return Objects.hash(date, id, income, maritalStatus, mntFishProducts, mntFruits, mntGoldProducts,
+				mntMeatProducts, mntSweetProducts, mntWines);
 	}
 
 	@Override
@@ -126,7 +137,8 @@ public class Client {
 		if (getClass() != obj.getClass())
 			return false;
 		Client other = (Client) obj;
-		return id == other.id && Double.doubleToLongBits(income) == Double.doubleToLongBits(other.income)
+		return Objects.equals(date, other.date) && id == other.id
+				&& Double.doubleToLongBits(income) == Double.doubleToLongBits(other.income)
 				&& Objects.equals(maritalStatus, other.maritalStatus)
 				&& Double.doubleToLongBits(mntFishProducts) == Double.doubleToLongBits(other.mntFishProducts)
 				&& Double.doubleToLongBits(mntFruits) == Double.doubleToLongBits(other.mntFruits)
@@ -141,7 +153,7 @@ public class Client {
 		return "Client [id=" + id + ", maritalStatus=" + maritalStatus + ", income=" + income + ", mntWines=" + mntWines
 				+ ", mntFruits=" + mntFruits + ", mntMeatProducts=" + mntMeatProducts + ", mntFishProducts="
 				+ mntFishProducts + ", mntSweetProducts=" + mntSweetProducts + ", mntGoldProducts=" + mntGoldProducts
-				+ "]";
+				+ ", date=" + date + "]";
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.example.lynxlaststand.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -26,21 +30,34 @@ public class KafkaConsumerService {
 		} else {
 			atRisk = (totalSpent / client.getIncome() * 2) * 100;
 		}
+		
+		/*
+		 * change date format
+		 */
+		
+		String dateStr = client.getDate();
+
+		LocalDate localDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
+		System.out.println(localDate);
+
+		System.out.println(localDate.format(DateTimeFormatter.ofPattern("MMMM-dd-YYYY", Locale.ENGLISH)));
 
 		/*
-		 * at risk 
+		 * at risk
 		 */
 
-//		if (atRisk > 40) {
-//			logger.info(String.format("Client create -> %s", client));
-//		}
-		
-		
+		if (atRisk > 40) {
+
+			logger.info(String.format("Client create -> %s", client.getDate()));
+
+		}
+
 		/*
 		 * if single
 		 */
-		
-		if(client.getMaritalStatus().equals("Single")) {
+
+		if (client.getMaritalStatus().equals("Single")) {
 			logger.info(String.format("Client create -> %s", client));
 		}
 
