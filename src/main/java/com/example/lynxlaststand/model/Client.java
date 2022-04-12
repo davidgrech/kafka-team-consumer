@@ -1,7 +1,5 @@
 package com.example.lynxlaststand.model;
 
-import java.util.Objects;
-
 public class Client {
 
 	private long id;
@@ -24,13 +22,15 @@ public class Client {
 
 	private String date;
 
+	private boolean atRisk;
+
 	public Client() {
 		super();
 	}
 
 	public Client(String maritalStatus, double income, double mntWines, double mntFruits, double mntMeatProducts,
-			double mntFishProducts, double mntSweetProducts, double mntGoldProducts, String date) {
-		super();
+                  double mntFishProducts, double mntSweetProducts, double mntGoldProducts,
+                  String date, boolean atRisk) {
 		this.maritalStatus = maritalStatus;
 		this.income = income;
 		this.mntWines = mntWines;
@@ -40,6 +40,7 @@ public class Client {
 		this.mntSweetProducts = mntSweetProducts;
 		this.mntGoldProducts = mntGoldProducts;
 		this.date = date;
+		this.atRisk = atRisk;
 	}
 
 	public long getId() {
@@ -122,38 +123,75 @@ public class Client {
 		this.date = date;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(date, id, income, maritalStatus, mntFishProducts, mntFruits, mntGoldProducts,
-				mntMeatProducts, mntSweetProducts, mntWines);
+	public boolean isAtRisk() {
+		return atRisk;
+	}
+
+	public void setAtRisk(boolean atRisk) {
+		this.atRisk = atRisk;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Client client = (Client) o;
+
+		if (id != client.id) return false;
+		if (Double.compare(client.income, income) != 0) return false;
+		if (Double.compare(client.mntWines, mntWines) != 0) return false;
+		if (Double.compare(client.mntFruits, mntFruits) != 0) return false;
+		if (Double.compare(client.mntMeatProducts, mntMeatProducts) != 0) return false;
+		if (Double.compare(client.mntFishProducts, mntFishProducts) != 0) return false;
+		if (Double.compare(client.mntSweetProducts, mntSweetProducts) != 0) return false;
+		if (Double.compare(client.mntGoldProducts, mntGoldProducts) != 0) return false;
+		if (atRisk != client.atRisk) return false;
+		if (maritalStatus != null ? !maritalStatus.equals(client.maritalStatus) : client.maritalStatus != null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Client other = (Client) obj;
-		return Objects.equals(date, other.date) && id == other.id
-				&& Double.doubleToLongBits(income) == Double.doubleToLongBits(other.income)
-				&& Objects.equals(maritalStatus, other.maritalStatus)
-				&& Double.doubleToLongBits(mntFishProducts) == Double.doubleToLongBits(other.mntFishProducts)
-				&& Double.doubleToLongBits(mntFruits) == Double.doubleToLongBits(other.mntFruits)
-				&& Double.doubleToLongBits(mntGoldProducts) == Double.doubleToLongBits(other.mntGoldProducts)
-				&& Double.doubleToLongBits(mntMeatProducts) == Double.doubleToLongBits(other.mntMeatProducts)
-				&& Double.doubleToLongBits(mntSweetProducts) == Double.doubleToLongBits(other.mntSweetProducts)
-				&& Double.doubleToLongBits(mntWines) == Double.doubleToLongBits(other.mntWines);
+		return date != null ? date.equals(client.date) : client.date == null;
 	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = (int) (id ^ (id >>> 32));
+		result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
+		temp = Double.doubleToLongBits(income);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntWines);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntFruits);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntMeatProducts);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntFishProducts);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntSweetProducts);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(mntGoldProducts);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + (date != null ? date.hashCode() : 0);
+		result = 31 * result + (atRisk ? 1 : 0);
+		return result;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", maritalStatus=" + maritalStatus + ", income=" + income + ", mntWines=" + mntWines
-				+ ", mntFruits=" + mntFruits + ", mntMeatProducts=" + mntMeatProducts + ", mntFishProducts="
-				+ mntFishProducts + ", mntSweetProducts=" + mntSweetProducts + ", mntGoldProducts=" + mntGoldProducts
-				+ ", date=" + date + "]";
+		return "Client{" +
+				"id=" + id +
+				", maritalStatus='" + maritalStatus + '\'' +
+				", income=" + income +
+				", mntWines=" + mntWines +
+				", mntFruits=" + mntFruits +
+				", mntMeatProducts=" + mntMeatProducts +
+				", mntFishProducts=" + mntFishProducts +
+				", mntSweetProducts=" + mntSweetProducts +
+				", mntGoldProducts=" + mntGoldProducts +
+				", date='" + date + '\'' +
+				", atRisk=" + atRisk +
+				'}';
 	}
-
 }
