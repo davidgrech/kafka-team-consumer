@@ -6,13 +6,19 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.example.lynxlaststand.model.Client;
+import com.example.lynxlaststand.repository.ClientRepository;
 
 @Service
 public class KafkaConsumerService {
+	
+	@Autowired
+	private ClientRepository clientRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(KafkaConsumerService.class);
 
@@ -59,6 +65,9 @@ public class KafkaConsumerService {
 
 		if (client.getMaritalStatus().equals("Single")) {
 			logger.info(String.format("Client create -> %s", client));
+			
+			//clientRepository.save(client);
+			
 		}
 
 	}
