@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import com.example.lynxlaststand.model.CuratedClient;
 import com.example.lynxlaststand.repository.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.example.lynxlaststand.model.Client;
@@ -21,8 +24,12 @@ public class KafkaConsumerService {
     @Autowired
     private ClientRepository clientRepository;
 
+
     @KafkaListener(topics = "client-log", groupId = "group-id", containerFactory = "clientKafkaListenerContainerFactory")
     public void consume(Client client) {
+
+        CuratedClient curatedClient = new CuratedClient();
+
 
         // Operation to calculate the total spent for each client
         double totalSpent = client.getMntFishProducts() + client.getMntFruits() + client.getMntGoldProducts()
@@ -52,9 +59,24 @@ public class KafkaConsumerService {
             LocalDate localDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             client.setDate(localDate.format(DateTimeFormatter.ofPattern("MMMM-dd-YYYY", Locale.ENGLISH)));
 
-            clientRepository.save(client);
+
+            //clientRepository.save(client);
+
+            curatedClient.setAtRisk(client.isAtRisk());
+            curatedClient.setId(client.getId());
+            curatedClient.setSalary(client.getIncome());
+            curatedClient.setEnrollment(client.getDate());
+
+            clientRepository.save(curatedClient);
+
+
 
         }
+
+
+
+
+
 
     }
 }
